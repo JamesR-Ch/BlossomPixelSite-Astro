@@ -1,0 +1,162 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  /* ── Blossom Pixel Color System ── */
+  --color-cream:        #FAF7F2;
+  --color-cream-dark:   #F0EBE1;
+  --color-ivory:        #FEFCF9;
+  --color-tan:          #A67C52;
+  --color-tan-light:    #C9A882;
+  --color-tan-dark:     #7D5E3A;
+  --color-blue:         #5B7FA6;
+  --color-blue-light:   #8AAECB;
+  --color-blue-muted:   #B8CCE0;
+  --color-sage:         #7A9E7E;
+  --color-sage-light:   #A8C4AB;
+  --color-petal-pink:   #F2C4CE;
+  --color-petal-yellow: #F5E6A3;
+  --color-text-dark:    #2D1F14;
+  --color-text-body:    #4A3728;
+  --color-text-muted:   #8B7355;
+
+  /* ── Typography ── */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Inter', 'Noto Sans Thai', sans-serif;
+
+  /* ── Radius ── */
+  --radius: 0.75rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --font-sans: var(--font-body);
+  --font-mono: 'Courier New', monospace;
+}
+
+/* ── Base Styles ── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+    background-color: #FAF7F2;
+    color: #2D1F14;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+/* ── Custom Utilities ── */
+@layer utilities {
+  .font-display {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .font-body {
+    font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+  }
+
+  .text-tan    { color: #A67C52; }
+  .text-blue-blossom { color: #5B7FA6; }
+  .bg-cream    { background-color: #FAF7F2; }
+  .bg-cream-dark { background-color: #F0EBE1; }
+  .bg-ivory    { background-color: #FEFCF9; }
+  .border-tan  { border-color: #A67C52; }
+
+  /* Polaroid frame */
+  .polaroid {
+    background: white;
+    padding: 10px 10px 30px 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.08);
+    transform: rotate(var(--rotate, 0deg));
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .polaroid:hover {
+    transform: rotate(0deg) scale(1.03);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+    z-index: 10;
+  }
+
+  /* Floral section divider */
+  .section-divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #A67C52 30%, #C9A882 50%, #A67C52 70%, transparent);
+    opacity: 0.4;
+  }
+
+  /* Glass card */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(166, 124, 82, 0.15);
+  }
+
+  /* Gradient text */
+  .gradient-tan {
+    background: linear-gradient(135deg, #A67C52, #7D5E3A);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-blue {
+    background: linear-gradient(135deg, #5B7FA6, #3A6080);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Shine animation for CTA */
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-shine::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -75%;
+    width: 50%;
+    height: 200%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: skewX(-20deg);
+    animation: shine 3s infinite;
+  }
+  @keyframes shine {
+    0%   { left: -75%; }
+    50%  { left: 125%; }
+    100% { left: 125%; }
+  }
+
+  /* Floating petal animation */
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33%       { transform: translateY(-12px) rotate(5deg); }
+    66%       { transform: translateY(-6px) rotate(-3deg); }
+  }
+  .animate-float { animation: float-slow 6s ease-in-out infinite; }
+  .animate-float-delayed { animation: float-slow 6s ease-in-out 2s infinite; }
+  .animate-float-slow    { animation: float-slow 8s ease-in-out 1s infinite; }
+
+  /* Fade in up */
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in-up {
+    animation: fade-in-up 0.7s ease-out both;
+  }
+
+  /* Smooth scroll offset for fixed nav */
+  [id] { scroll-margin-top: 80px; }
+}

@@ -1,0 +1,30 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import PageLoader from '@/components/PageLoader'
+import Navbar from '@/components/Navbar'
+import Hero from '@/components/sections/Hero'
+import About from '@/components/sections/About'
+import Services from '@/components/sections/Services'
+import Reviews from '@/components/sections/Reviews'
+import Portfolio from '@/components/sections/Portfolio'
+import Process from '@/components/sections/Process'
+import Contact from '@/components/sections/Contact'
+import Footer from '@/components/Footer'
+import BackToTop from '@/components/BackToTop'
+---
+
+<Layout>
+  <PageLoader client:load />
+  <Navbar client:load />
+  <main class="relative">
+    <Hero client:load />
+    <About client:visible />
+    <Services client:visible />
+    <Reviews client:visible />
+    <Portfolio client:visible />
+    <Process client:visible />
+    <Contact client:visible />
+  </main>
+  <Footer client:load />
+  <BackToTop client:load />
+</Layout>

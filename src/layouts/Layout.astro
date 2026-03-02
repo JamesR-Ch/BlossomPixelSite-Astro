@@ -1,0 +1,210 @@
+---
+import '@/styles/globals.css'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const {
+  title = 'Blossom Pixel | Photo Booth & Event Services Thailand',
+  description = 'Blossom Pixel — บริการ Photo Booth พรีเมียม พร้อมปรินต์ทันที สำหรับงานแต่งงานและอีเวนต์ในไทย ครบทั้ง 360 Video Booth, Video Blessing และ LINE Sticker ออกแบบเฟรมตามธีมงาน ทีมงานมืออาชีพดูแลตลอดงาน',
+} = Astro.props
+
+const canonicalURL = new URL(Astro.url.pathname, 'https://www.blossompixel.xyz')
+
+const keywords = [
+  'Blossom Pixel',
+  'photo booth',
+  'photobooth',
+  'photo booth thailand',
+  'โฟโต้บูธ',
+  'บูธถ่ายภาพ',
+  'โฟโต้บูธงานแต่ง',
+  'photo booth งานแต่ง',
+  'photo booth งานแต่งงาน',
+  'photo booth เช่า',
+  'บูธงานแต่ง',
+  'งานแต่ง',
+  'งานอีเว้น',
+  '360 video booth',
+  '360 video booth thailand',
+  '360 video',
+  '360 vdo',
+  'video blessing',
+  'vdo blessing',
+  'video blessing งานแต่งงาน',
+  'วีดีโออวยพร',
+  'งานแต่งงาน',
+  'wedding photo booth',
+  'instant print photo booth',
+  'sticker line งานแต่ง',
+  'สติ๊กเกอร์ไลน์งานแต่ง',
+  'event photo booth',
+  'Sign me',
+  'sign me',
+  'sign me thailand',
+  'ลายเซ็นงานแต่ง',
+  'photobooth ชลบุรี',
+  'photo booth ชลบุรี',
+  'photo booth สมุทรปราการ',
+  'photobooth สมุทรปราการ',
+].join(', ')
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Blossom Pixel',
+  description:
+    'บริการ Photo Booth พรีเมียม พร้อมปรินต์ทันที สำหรับงานแต่งงานและอีเวนต์ในไทย ครบทั้ง 360 Video Booth, Video Blessing และ LINE Sticker ออกแบบเฟรมตามธีมงาน',
+  url: 'https://www.blossompixel.xyz',
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://www.blossompixel.xyz/icon.png',
+    width: 512,
+    height: 512,
+  },
+  image: 'https://www.blossompixel.xyz/images/logo/Branding%20and%20colors.jpg',
+  priceRange: '฿฿',
+  areaServed: [
+    { '@type': 'Country', name: 'Thailand' },
+    { '@type': 'City', name: 'Bangkok' },
+    { '@type': 'City', name: 'Chonburi' },
+    { '@type': 'City', name: 'Samut Prakan' },
+  ],
+  knowsLanguage: ['th', 'en'],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Event Photo & Video Services',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Photo Booth',
+          description: 'Premium photo booth with instant printing and custom frame designs for weddings and events',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: '360 Video Booth',
+          description: '360-degree slow-motion video booth experience for weddings and special events',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Video Blessing',
+          description: 'Capture heartfelt guest blessing messages through a charming vintage TV display',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'LINE Stickers',
+          description: 'Custom LINE stickers created from pre-wedding or event photos with personalized themes',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Sign Me',
+          description: 'Interactive digital signature experience for wedding guests and event attendees',
+        },
+      },
+    ],
+  },
+  sameAs: [
+    'https://www.facebook.com/bblossompixel',
+    'https://www.instagram.com/blossom.pixel',
+    'https://www.tiktok.com/@blossom.pixel',
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer service',
+    email: 'blossom.pixel.th@gmail.com',
+    url: 'https://www.facebook.com/bblossompixel',
+    availableLanguage: ['Thai', 'English'],
+  },
+}
+---
+
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Title & Description -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalURL.href} />
+
+    <!-- hreflang (bilingual: TH + EN on same URL) -->
+    <link rel="alternate" hreflang="th" href="https://www.blossompixel.xyz/" />
+    <link rel="alternate" hreflang="en" href="https://www.blossompixel.xyz/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.blossompixel.xyz/" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <link rel="apple-touch-icon" href="/icon.png" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#A67C52" />
+
+    <!-- Authors & Meta -->
+    <meta name="author" content="Blossom Pixel" />
+    <meta name="creator" content="Blossom Pixel" />
+    <meta name="publisher" content="Blossom Pixel" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Geo / Local -->
+    <meta name="geo.region" content="TH" />
+    <meta name="geo.placename" content="Thailand" />
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Blossom Pixel | Photo Booth & Event Services Thailand" />
+    <meta property="og:description" content="Blossom Pixel — บริการ Photo Booth พรีเมียม พร้อมปรินต์ทันที สำหรับงานแต่งงานและอีเวนต์ในไทย ครบทั้ง 360 Video Booth, Video Blessing และ LINE Sticker" />
+    <meta property="og:url" content="https://www.blossompixel.xyz" />
+    <meta property="og:site_name" content="Blossom Pixel" />
+    <meta property="og:locale" content="th_TH" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:image" content="https://www.blossompixel.xyz/images/logo/Branding%20and%20colors.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Blossom Pixel — Photo Booth & Event Services Thailand" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Blossom Pixel | Photo Booth Thailand" />
+    <meta name="twitter:description" content="Premium Photo Booth with instant printing for weddings & events in Thailand. 360 Video Booth, Video Blessing & LINE Stickers." />
+    <meta name="twitter:image" content="https://www.blossompixel.xyz/images/logo/Branding%20and%20colors.jpg" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+Thai:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class="antialiased bg-cream">
+    <slot />
+  </body>
+</html>

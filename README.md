@@ -1,0 +1,205 @@
+# Blossom Pixel — Astro Site
+
+Production website for **Blossom Pixel**, a Thai premium event photo booth & entertainment service company.
+
+🌐 **Live:** https://www.blossompixel.xyz
+📦 **Hosting:** Cloudflare Pages (free tier, static)
+🗄️ **Repo:** https://github.com/JamesR-Ch/BlossomPixelSite-Astro
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Astro 5 (`output: 'static'`) |
+| UI Components | React islands via `@astrojs/react` |
+| Animations | framer-motion |
+| Styling | Tailwind CSS v4 + `tw-animate-css` |
+| State (language) | nanostores + `@nanostores/react` |
+| Fonts | Google Fonts via `<link>` (Playfair Display, Inter, Noto Sans Thai) |
+| Sitemap | `@astrojs/sitemap` → `/sitemap-index.xml` |
+| Robots | Static `public/robots.txt` |
+| Language | TypeScript |
+
+---
+
+## Project Structure
+
+```
+bp-app-astro/
+├── public/
+│   ├── icon.png                  # Favicon (512×512)
+│   ├── robots.txt                # Static robots.txt
+│   └── images/
+│       ├── photobooth/           # 1.jpg – 15.jpg
+│       ├── 360video/
+│       ├── blessing/
+│       ├── sticker/
+│       ├── signme/
+│       ├── frames/               # FrameDesign-1.jpg – 10.jpg
+│       ├── settings/             # Setting-1.jpg – 6.jpg
+│       ├── onsite/               # 1.jpg – 5.jpg
+│       ├── elements/             # Flower-1.jpg, Flower-2.jpg
+│       └── logo/                 # Branding and colors.jpg, logo and favicon.png
+├── src/
+│   ├── layouts/
+│   │   └── Layout.astro          # Gold standard SEO shell (all meta, JSON-LD)
+│   ├── pages/
+│   │   └── index.astro           # Main page — all sections wired with hydration
+│   ├── components/
+│   │   ├── Navbar.tsx            # client:load — sticky nav, mobile drawer, lang toggle
+│   │   ├── Footer.tsx            # client:load
+│   │   ├── PageLoader.tsx        # client:load — petal spinner
+│   │   ├── BackToTop.tsx         # client:load
+│   │   └── sections/
+│   │       ├── Hero.tsx          # client:load
+│   │       ├── About.tsx         # client:visible
+│   │       ├── Services.tsx      # client:visible
+│   │       ├── Portfolio.tsx     # client:visible — lightbox modal
+│   │       ├── Process.tsx       # client:visible
+│   │       ├── Reviews.tsx       # client:visible
+│   │       └── Contact.tsx       # client:visible
+│   ├── stores/
+│   │   └── language.ts           # nanostores atom — TH/EN toggle, localStorage persist
+│   ├── lib/
+│   │   ├── translations.ts       # Full TH/EN strings — all 5 services
+│   │   └── utils.ts              # cn() helper (clsx only)
+│   └── styles/
+│       └── globals.css           # Tailwind v4 @theme, custom colors, utilities
+├── astro.config.mjs
+├── tsconfig.json
+├── package.json
+└── .gitignore
+```
+
+---
+
+## Commands
+
+```bash
+npm install       # Install dependencies
+npm run dev       # Start dev server → http://localhost:4321
+npm run build     # Production build → dist/
+npm run preview   # Preview production build locally
+```
+
+---
+
+## Bilingual Support (TH/EN)
+
+Language state is managed by **nanostores** — no React Context/Provider tree needed.
+
+```ts
+// src/stores/language.ts
+import { language, t, toggleLanguage, initLanguage } from '@/stores/language'
+```
+
+- `language` — atom, `'th'` | `'en'`
+- `t` — computed store, resolves to current translation object
+- `toggleLanguage()` — switches + persists to `localStorage` key `bp-lang`
+- `initLanguage()` — call once in `useEffect` (Navbar does this) to hydrate from localStorage
+
+In any React island:
+```tsx
+import { useStore } from '@nanostores/react'
+import { t as tStore, language, toggleLanguage, initLanguage } from '@/stores/language'
+
+const trans = useStore(tStore)
+const lang = useStore(language)
+```
+
+---
+
+## SEO — Gold Standard
+
+All SEO lives in `src/layouts/Layout.astro`.
+
+### Meta Tags
+- `<title>` + `<meta description>` + `<meta keywords>` (32 keywords, TH + EN + location)
+- `<link rel="canonical">` — dynamic per page
+- `<link rel="alternate" hreflang>` — th / en / x-default (all → homepage, bilingual single URL)
+- `<meta name="robots">` — `index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1`
+- `<meta name="googlebot">` — same directives
+- `<meta name="geo.region" content="TH">`
+- `<meta name="geo.placename" content="Thailand">`
+- `<meta name="format-detection" content="telephone=no">`
+- `<meta name="theme-color" content="#A67C52">`
+
+### Open Graph
+- Full OG set: type, title, description, url, site_name, locale (`th_TH`), locale:alternate (`en_US`), image (1200×630), image:alt
+
+### Twitter Card
+- `summary_large_image`
+
+### JSON-LD (Schema.org)
+- Type: `LocalBusiness`
+- `logo` as `ImageObject` (512×512)
+- `areaServed`: array — Thailand (Country) + Bangkok, Chonburi, Samut Prakan (City)
+- `hasOfferCatalog` with 5 services: Photo Booth, 360 Video Booth, Video Blessing, LINE Stickers, Sign Me
+- `sameAs`: Facebook, Instagram, TikTok
+- `contactPoint`: customer service, email, availableLanguage Thai + English
+
+### Sitemap
+- Generated by `@astrojs/sitemap` → `/sitemap-index.xml`
+- `changefreq: monthly`, `priority: 1.0`, `lastmod: 2026-03-02`
+- Submitted to Google Search Console ✅
+
+### robots.txt (`public/robots.txt`)
+```
+User-agent: *
+Allow: /
+Sitemap: https://www.blossompixel.xyz/sitemap-index.xml
+```
+
+---
+
+## Deployment — Cloudflare Pages
+
+| Setting | Value |
+|---|---|
+| Build command | `npm run build` |
+| Output directory | `dist` |
+| Node.js version | `20` |
+| Custom domain | `www.blossompixel.xyz` |
+
+**DNS (Cloudflare):**
+- `CNAME www` → `blossompixelsite-astro.pages.dev` (Proxied / orange cloud)
+- Apex `@` handled by Cloudflare Pages redirect
+
+**Why Cloudflare Pages over Vercel:**
+- No edge request billing (Vercel free tier was hitting 75% of 100K/day limit)
+- Cloudflare CDN serves images at no cost
+- Static output = zero serverless/ISR overhead
+
+---
+
+## Brand Colors
+
+| Name | Hex | Tailwind Class |
+|---|---|---|
+| Cream (background) | `#FAF7F2` | `bg-cream` |
+| Tan (primary accent) | `#A67C52` | `bg-tan` / `text-tan` |
+| Dusty Blue | `#5B7FA6` | `bg-blue-dusty` |
+| Sage Green | `#7A9E7E` | `bg-sage` |
+| Dark text | `#2D1F14` | `text-dark` |
+| Body text | `#4A3728` | `text-body` |
+
+Defined via `@theme inline` in `src/styles/globals.css`.
+
+---
+
+## Business Info
+
+**Blossom Pixel** — Premium Thai event photo booth & entertainment service
+
+| | |
+|---|---|
+| Facebook | [bblossompixel](https://www.facebook.com/bblossompixel) |
+| Instagram | [blossom.pixel](https://www.instagram.com/blossom.pixel) |
+| LINE | @748qgshq |
+| Email | blossom.pixel.th@gmail.com |
+
+**Services:** Photo Booth · 360° Video Booth · Video Blessing · LINE Stickers · Sign Me
+
+**Service areas:** Bangkok · Chonburi · Samut Prakan
